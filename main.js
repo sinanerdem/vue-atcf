@@ -66,11 +66,11 @@ Vue.component('atcf', {
     	},
   	},
 	template: `
-		<div>
-			<div v-for="element in elements">
-				<component :is=element.selector ref="children" :label=element.label :level=element.level :opts=element.opts></component>
-			</div>
+		<div class="add-to-cart-form">
+			
+			<component v-for="element in elements" :key="element.id" :is=element.selector ref="children" :label=element.label :level=element.level :opts=element.opts></component>
 			<atcf-price :selected_variation="selected_variation"></atcf-price>
+			<atcf-add-to-cart-button></atcf-add-to-cart-button>
 		</div>
 		`,
 	methods: {
@@ -99,7 +99,7 @@ Vue.component('atcf-select', {
 		};
 	},
 	template: `
-		<div id="" class="atcf-select" :class="element_class">
+		<div id="" class="atcf-select select" :class="element_class">
 			<select>
 				<option v-for="(opt,index) in opts" :selected="(element_index==index) ? true : false" :value="opt.value" @click="onClick(opt,index)" :disabled="opt.disabled">
 	   				{{ opt.text }} {{index}} {{element_index}}
@@ -159,7 +159,7 @@ Vue.component('atcf-price', {
 		'selected_variation',
 	],
 	template: `
-	<div>
+	<div class="atcf-price">
 		<div>{{selected_variation.price}} +KDV</div>
 		<div>{{selected_variation.discount}} indirimli fiyat: {{this.discountedPrice}}</div>
 		<div>{{selected_variation.total_price}} KDV dahil</div>
@@ -172,7 +172,18 @@ Vue.component('atcf-price', {
     	},
   	},
 });
-
+Vue.component('atcf-add-to-cart-button', {
+	props: [
+	],
+	template: `
+		<div class="add-to-cart-button">
+			<button class="button is-primary">Sepete Ekle</button>
+		</div>
+	`,
+	created: function () {
+    	this.storedata= store.data;
+  	},
+});
 var vm = new Vue({
 	el: '#atcf',
 	data: {
@@ -209,7 +220,7 @@ var vm = new Vue({
 			},
 	    	"elements": [
 	    		{
-		    		"selector": "atcf-radio", 
+		    		"selector": "atcf-select", 
 		    		"label": "title1", 
 		    		"level": "0", 
 		    		"opts": [

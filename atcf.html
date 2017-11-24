@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en"> 
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<style>
-.hidden{
-	display: none;
-}
-</style>
-</head>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<link rel="stylesheet" href="bulma.css">
+		<style>
+		.hidden{
+			display: none;
+		}
+		.add-to-cart-form{
+			padding: 20px;
+			border: 1px solid #ddd;
+			margin: 20px;
+		}
+		</style>
+	</head>
 	<body>
 		<div id="atcf">
 			<atcf :external_data="external_data" :internal_data="internal_data"></atcf>
 			<display-store></display-store>
 		</div>
-
-
-
 
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.1/vue.js"></script>
 		<script type="text/javascript" src="main.js"></script>
