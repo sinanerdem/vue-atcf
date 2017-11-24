@@ -289,7 +289,7 @@ var vm = new Vue({
 	  			this.internal_data.selected_variation.name = variationName;
   			} else{
   				this.internal_data.selected_variation = this.external_data.variations['ERROR'];
-  				this.internal_data.selected_variation.name = 'ERROR';
+  				this.internal_data.selected_variation.name = 'ERROR-NAME';
   				alert("Yanlış işlem tespit edildi. Site yöneticilerine bildiriniz. HATA KODU: BDB-NOVAR");
   			}
   		},
