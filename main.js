@@ -173,16 +173,25 @@ Vue.component('atcf-price', {
   	},
 });
 Vue.component('atcf-add-to-cart-button', {
-	props: [
-	],
+	data() {
+		return {
+			element_disabled: false,
+		};
+	},
 	template: `
 		<div class="add-to-cart-button">
-			<button class="button is-primary">Sepete Ekle</button>
+			<button class="button is-primary" :disabled="this.element_disabled ? true : null" @click="onClick()">Sepete Ekle</button>
 		</div>
+
 	`,
 	created: function () {
-    	this.storedata= store.data;
   	},
+  	methods: {
+    	onClick() {
+    		this.element_disabled = true;
+    		alert(vm.internal_data.selected_variation.name + " ürününü sepete eklediniz.");
+    	},
+    },
 });
 var vm = new Vue({
 	el: '#atcf',
