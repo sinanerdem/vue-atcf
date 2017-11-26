@@ -105,6 +105,7 @@ Vue.component('atcf-select', {
 	   				{{ opt.text }} {{index}} {{element_index}}
 	  			</option>
 			</select>
+			{{this.note}}
 		</div>
 	`,
 	methods: {
@@ -160,10 +161,9 @@ Vue.component('atcf-price', {
 	],
 	template: `
 	<div class="atcf-price">
-		<div>{{selected_variation.price}} +KDV</div>
+		<div>Fiyat: {{selected_variation.price}} +KDV</div>
 		<div>{{selected_variation.discount}} indirimli fiyat: {{this.discountedPrice}}</div>
-		<div>{{selected_variation.total_price}} KDV dahil</div>
-		<div>ISIM: {{selected_variation.name}}</div>
+		<div>Toplam fiyat: {{selected_variation.total_price}} KDV dahil</div>
 	</div>
 	`,
 	computed: {
@@ -176,11 +176,12 @@ Vue.component('atcf-add-to-cart-button', {
 	data() {
 		return {
 			element_disabled: false,
+			element_text: "Sepete ekle"
 		};
 	},
 	template: `
 		<div class="add-to-cart-button">
-			<button class="button is-primary" :disabled="this.element_disabled ? true : null" @click="onClick()">Sepete Ekle</button>
+			<button class="button is-primary" :disabled="this.element_disabled ? true : null" @click="onClick()">{{element_text}}</button>
 		</div>
 
 	`,
@@ -189,6 +190,7 @@ Vue.component('atcf-add-to-cart-button', {
   	methods: {
     	onClick() {
     		this.element_disabled = true;
+    		this.element_text = "Sepete eklendi";
     		alert(vm.internal_data.selected_variation.name + " ürününü sepete eklediniz.");
     	},
     },
