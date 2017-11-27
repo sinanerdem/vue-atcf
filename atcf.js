@@ -94,20 +94,22 @@ Vue.component('atcf-select', {
 		'label',
 	 	'level',
 	 	'opts',
+	 	'value',
+	 	'index',
 	],
 	data() {
 		return {
 			element_selected: '',
 			element_index: '',
-			element_class: '',
+			element_class: ''
 		};
 	},
 	template: `
 		<div id="" class="atcf-select" :class="element_class">
 			<label class="element-label">{{label}}</label>
 			<div  class="select">
-				<select>
-					<option v-for="(opt,index) in opts" :selected="(element_index==index) ? true : false" :value="opt.value" @click="onClick(opt,index)" :disabled="opt.disabled">
+				<select @change="onChange">
+					<option v-for="(opt,index) in opts" :selected="(element_index==index) ? true : false" :key="index" :value="opt.value" :disabled="opt.disabled">
 		   				{{ opt.text }}
 		  			</option>
 				</select>
@@ -115,7 +117,13 @@ Vue.component('atcf-select', {
 		</div>
 	`,
 	methods: {
+		onChange(e) {
+      		let index = e.target.selectedIndex;
+      		let opt = this.opts[index];
+      		selectionChildHelper(opt,index,this);
+    	},
     	onClick(opt,index) {
+    		console.log(index);
     		selectionChildHelper(opt,index,this);
     	},
     	reorganizeChild(){
