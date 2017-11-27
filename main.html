@@ -28,11 +28,16 @@
 		</style>
 	</head>
 	<body>
+		<div id="cart-block">
+			<cart-block :external_data="external_data" :internal_data="internal_data"></cart-block>
+		</div>
+
 		<div id="atcf">
 			<atcf :external_data="external_data" :internal_data="internal_data"></atcf>
 		</div>
 
 		<script type="text/javascript" src="libraries/vue.js"></script>
 		<script type="text/javascript" src="atcf.js"></script>
+		<script type="text/javascript" src="cart-block.js"></script>
 	</body>
 </html>
