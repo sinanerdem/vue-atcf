@@ -61,12 +61,12 @@ Vue.component('atcf', {
 		`,
 	methods: {
     	onChildChange() {
-       		vm.recalculate();
+       		vue_atcf.recalculate();
     		// reorganize each component after some change happens
     		for (var i = 0; i<this.$refs.children.length; i++){
     			this.$refs.children[i].reorganizeChild();
     		}
-    		vm.renameSelected();
+    		vue_atcf.renameSelected();
     	},
     	elementSingleorMultiple(type){
     		var multis_array = [];
@@ -207,14 +207,25 @@ Vue.component('atcf-add-to-cart-button', {
     	onClick() {
     		this.element_disabled = true;
     		this.element_text = "Sepete eklendi";
-    		alert(vm.internal_data.selected_variation.name + " ürününü sepete eklediniz.");
+    		vue_cart.internal_data.added_item = {
+				"exists": true,
+	    		"image": "http://v2.bidolubaski.com/sites/default/files/styles/cart_block_thumbnail_80x80/public/default_images/ozel-urun_1.jpg", 
+	    		"product": vue_atcf.product_name, 
+	    		"price": vue_atcf.internal_data.selected_variation.price,
+	    		"currency": "",
+	    		"attributes": []
+	    	};
+	    	vue_cart.internal_data.show_popup = true;
+	    	vue_cart.incrementCount();
+    		alert(vue_atcf.internal_data.selected_variation.name + " ürününü sepete eklediniz.");
     	},
     },
 });
-var vm = new Vue({
+var vue_atcf = new Vue({
 	el: '#atcf',
 	data: {
 		"product_uuid": "1",
+		"product_name": "Kartvizit",
 		"internal_data": {
 			"selected_variation": {},
 			"selected_options": {},
@@ -347,5 +358,5 @@ var vm = new Vue({
   		this.clearAll();
   	},
 })
-vm.recalculate();
-vm.renameSelected();
+vue_atcf.recalculate();
+vue_atcf.renameSelected();
