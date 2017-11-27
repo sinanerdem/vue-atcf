@@ -7,6 +7,14 @@
 		.hidden{
 			display: none;
 		}
+		.element-label{
+			display: block;
+		}
+		.single-valued{
+			padding: 10px;
+			border: 1px solid #ddd;
+			margin: 10px;
+		}
 		.add-to-cart-form{
 			padding: 20px;
 			border: 1px solid #ddd;
@@ -22,10 +30,9 @@
 	<body>
 		<div id="atcf">
 			<atcf :external_data="external_data" :internal_data="internal_data"></atcf>
-			<display-store></display-store>
 		</div>
 
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.1/vue.js"></script>
-		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript" src="libraries/vue.js"></script>
+		<script type="text/javascript" src="atcf.js"></script>
 	</body>
 </html>

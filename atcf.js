@@ -1,30 +1,8 @@
-
-const store = {
-  data: {
-    selectedOptions: {},
-    restrictionDeclarations: [],
-  }
-};
-Vue.component('display-store', {
-	props: [
-		'storedata',
-	],
-	template: `
-		<div>
-			{{ storedata }}
-		</div>
-	`,
-	created: function () {
-    	this.storedata= store.data;
-  	},
-});
-
-
 function createdChildHelper(obj){
 	obj.element_selected = obj.opts[0].value;
 	obj.element_index = 0;
-	store.data.restrictionDeclarations[obj.level] = obj.opts[0].limitOthers;
-	store.data.selectedOptions[obj.level] = obj.element_selected;
+	obj.$root.internal_data.restriction_declarations[obj.level] = obj.opts[0].limitOthers;
+	obj.$root.internal_data.selected_options[obj.level] = obj.element_selected;
 };
 function reorganizeChildHelper(obj){
 	if(obj.opts[obj.element_index].disabled){
@@ -45,10 +23,10 @@ function reorganizeChildHelper(obj){
 	}
 };
 function selectionChildHelper(opt,index,obj){
-	store.data.restrictionDeclarations[obj.level] = opt.limitOthers;
+	obj.$root.internal_data.restriction_declarations[obj.level] = opt.limitOthers;
 	obj.element_index = index;
 	obj.element_selected = opt.value;
-	store.data.selectedOptions[obj.level] = obj.element_selected;
+	obj.$root.internal_data.selected_options[obj.level] = obj.element_selected;
 	obj.$parent.onChildChange();
 };
 
@@ -64,11 +42,19 @@ Vue.component('atcf', {
     	selected_variation: function () {
       		return this.internal_data.selected_variation;
     	},
+    	selected_options: function () {
+      		return this.internal_data.selected_options;
+    	},
+    	restriction_declarations: function () {
+      		return this.internal_data.restriction_declarations;
+    	},
   	},
 	template: `
 		<div class="add-to-cart-form">
-			
-			<component v-for="element in elements" :key="element.id" :is=element.selector ref="children" :label=element.label :level=element.level :opts=element.opts></component>
+			<div class="single-valued">
+				<atcf-single v-for="element in elementSingleorMultiple('singles')" :key="element.id" :element="element"></atcf-single>
+			</div>
+			<component v-for="element in elementSingleorMultiple('multis')" :key="element.id" :is=element.selector ref="children" :label=element.label :level=element.level :opts=element.opts></component>
 			<atcf-price :selected_variation="selected_variation"></atcf-price>
 			<atcf-add-to-cart-button></atcf-add-to-cart-button>
 		</div>
@@ -81,6 +67,24 @@ Vue.component('atcf', {
     			this.$refs.children[i].reorganizeChild();
     		}
     		vm.renameSelected();
+    	},
+    	elementSingleorMultiple(type){
+    		var multis_array = [];
+    		var singles_array = [];
+    		for (i in this.elements){
+    			if(this.elements[i]["opts"].length == 1){
+    				singles_array.push(this.elements[i]);
+    			} else{
+    				multis_array.push(this.elements[i]);
+    			}
+    		}
+    		if (type == "singles"){
+    			return singles_array;
+    		}	else if (type == "multis"){
+    			return multis_array;
+    		}	else{
+    			throw new Error('Invalid parameter for elementSingleorMultiple function!');
+    		}
     	}
     },
 });
@@ -99,13 +103,15 @@ Vue.component('atcf-select', {
 		};
 	},
 	template: `
-		<div id="" class="atcf-select select" :class="element_class">
-			<select>
-				<option v-for="(opt,index) in opts" :selected="(element_index==index) ? true : false" :value="opt.value" @click="onClick(opt,index)" :disabled="opt.disabled">
-	   				{{ opt.text }} {{index}} {{element_index}}
-	  			</option>
-			</select>
-			{{this.note}}
+		<div id="" class="atcf-select" :class="element_class">
+			<label class="element-label">{{label}}</label>
+			<div  class="select">
+				<select>
+					<option v-for="(opt,index) in opts" :selected="(element_index==index) ? true : false" :value="opt.value" @click="onClick(opt,index)" :disabled="opt.disabled">
+		   				{{ opt.text }}
+		  			</option>
+				</select>
+			</div>
 		</div>
 	`,
 	methods: {
@@ -136,7 +142,7 @@ Vue.component('atcf-radio', {
 	},
 	template: `
 		<div id="" class="atcf-radio" :class="element_class">
-			<label>{{label}}</label>
+			<label class="element-label">{{label}}</label>
 			<form action="">
 				<label v-for="(opt,index) in opts"><input type="radio" @click="onClick(opt,index)" :name="level" :disabled="opt.disabled" :value="opt.value" v-model="element_selected">{{ opt.text }}</label>
 			</form>
@@ -154,6 +160,16 @@ Vue.component('atcf-radio', {
     	createdChildHelper(this);
   	},
 
+});
+Vue.component('atcf-single', {
+	props: [
+		'element',
+	],
+	template: `
+	<div class="atcf-single">
+		<label class="element-label">{{element["label"]}}</label> <span class="text">{{element["opts"][0]["text"]}}</span>
+	</div>
+	`,
 });
 Vue.component('atcf-price', {
 	props: [
@@ -201,6 +217,8 @@ var vm = new Vue({
 		"product_uuid": "1",
 		"internal_data": {
 			"selected_variation": {},
+			"selected_options": {},
+    		"restriction_declarations": [],
 		},
 		"external_data": {
 			"variations": {
@@ -259,16 +277,24 @@ var vm = new Vue({
 		      			{ "text": "_22", "value": "22" },
 		      			{ "text": "_23", "value": "23" }
 		    		]
+	    		},
+	    		{
+		    		"selector": "atcf-radio", 
+		    		"label": "sabit ozellik 1 title", 
+		    		"level": "2", 
+		    		"opts": [
+		      			{ "text": "cok guzel bir ozellik", "value": "41" }
+		    		]
 	    		}
 	    	]
 	    },
   	},
   	computed: {
     	storeRestDecl: function () {
-      		return store.data.restrictionDeclarations;
+      		return this.internal_data.restriction_declarations;
     	},
     	storeSelOpt: function(){
-    		return store.data.selectedOptions;
+    		return this.internal_data.selected_options;
     	},
   	},
   	methods:{
