@@ -209,8 +209,6 @@ Vue.component('atcf-add-to-cart-button', {
 		</div>
 
 	`,
-	created: function () {
-  	},
   	methods: {
     	onClick() {
     		this.element_disabled = true;
