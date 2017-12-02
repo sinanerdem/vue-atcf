@@ -1,4 +1,9 @@
-var order_id = document.querySelector('.order-id-for-vue').innerHTML;
+try {
+    var order_id = document.querySelector('.order-id-for-vue').innerHTML;
+}
+catch(err) {
+    var order_id = 0;
+}
 document.querySelector('#cart-block').children[0].setAttribute(":order_id", order_id);
 
 var full = window.location.host;
@@ -47,7 +52,7 @@ Vue.component('cart-popup', {
 		<div class="cart-count">Sepetinizde {{internal_data.count}} ürün var.</div>
 		<cart-item class="cart-item added-item" v-if="internal_data.added_item.exists" :item="internal_data.added_item"></cart-item>
 		<cart-item v-for="item in external_data.items" :key="item.id" :item="item"></cart-item>
-		<div class="cart-popup-footer">
+		<div class="cart-popup-footer" v-if="external_data.items[0]">
 			<cart-total class="cart-total" :first_item="external_data.items[0].total_price__number_1"></cart-total>
 			<a class="cart-button button is-primary" href="/cart">Sepete git</a>
 		</div>
@@ -95,12 +100,11 @@ var vue_cart = new Vue({
 			"show_popup": false,
 			"added_item": {
 				"exists": false,
-	    		"image": "http://v2.bidolubaski.com/sites/default/files/styles/cart_block_thumbnail_80x80/public/default_images/ozel-urun_1.jpg", 
-	    		"product": "", 
-	    		"price": 0,
-	    		"currency": "",
-	    		"attributes": []
-	    	},
+			    "field_product_image": "/sites/default/files/styles/cart_block_thumbnail_80x80/public/default_images/document.png?itok=FcgyOQGP",
+    			"title": "El ilani",
+    			"price__number": "999.00 TRY\n",
+    			"total_price__number_1": "1,205.84 TRY\n"
+  			},
 		},
 		"external_data": {
 			"items": []
@@ -108,19 +112,25 @@ var vue_cart = new Vue({
   	},
   	mounted() {
   		var self = this;
-  		url = 'https://'+subdomain+'.iyibaski.com/cart/'+this.order_id+'/cart.json';
-  		axios.get(url)
-  		.then(function (response) {
-    		vue_cart.external_data.items = response.data;
-    		vue_cart.internal_data.count = vue_cart.external_data.items.length;
-  		})
-  		.catch(function (error) {
-    		console.log(error);
-  		});
+  		if (this.order_id==0){
+
+  		} else{
+	  		url = 'https://'+subdomain+'.iyibaski.com/cart/'+this.order_id+'/cart.json';
+	  		axios.get(url)
+	  		.then(function (response) {
+	  			console.log(response.data);
+	    		vue_cart.external_data.items = response.data;
+	    		vue_cart.internal_data.count = vue_cart.external_data.items.length;
+	  		})
+	  		.catch(function (error) {
+	    		console.log(error);
+	  		});
+  		}
+  		this.internal_data.count = 0;
   	},
   	methods:{
   		incrementCount(){
-  			this.external_data.count ++;
+  			this.internal_data.count ++;
   		},
   	},
 })

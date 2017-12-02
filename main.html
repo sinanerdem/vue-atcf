@@ -2,92 +2,324 @@
 <html lang="en"> 
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<link rel="stylesheet" href="bulma.css">
 		<style>
-		.hidden{
-			display: none;
-		}
-		.element-label{
-			display: block;
-			font-weight: bold;
-		}
-		.single-valued{
-			padding: 10px;
-			border: 1px solid #ddd;
-			margin: 10px;
-		}
-		.add-to-cart-form{
-			padding: 20px;
-			border: 1px solid #ddd;
-			margin: 20px;
-		}
-		.atcf-price{
-			padding: 10px;
-			background: #ddd;
-			margin: 10px;
-		}
-		.cart-widget{
-			width: 100px;
-			border: 2px solid #ccc;
-			padding: 10px;
-			margin: 10px;
-			cursor: pointer;
-		}
-		.cart-popup{
-			position: absolute;
-			background: #fff;
-			box-shadow: 2px 2px 2px #ccc;
-			z-index: 10;
-			padding: 10px;
-			width: 500px;
-		}
-		.cart-popup .cart-close{
-			float: right;
-		}
-		.cart-item{
-			height: 85px;
-			border-bottom: 1px solid #ddd;
-			padding-bottom: 5px;
-			margin-bottom: 5px;
-			clear: both;
-		}
-		.cart-item .thumb-image{
-			float: left;
-			margin-right: 10px;
-		}
-		.cart-item .attributes{
-			float: left;
-		}
-		.cart-item .item-price{
-			float: right;
-		}
-		.added-item{
-			background: #deea66;
-		}
-		.cart-popup-footer{
-			background: #eee;
-			padding: 10px;
-			height: 80px;
-		}
-		.cart-total{
-			float: left;
-			width: 300px;
-		}
-		.cart-total .left{
-			float: left;
-		}
-		.cart-button{
-			float: right;
-		}
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+#atcf-container{
+	clear: both;
+	width: 600px;
+	padding: 20px;
+	margin: 20px;
+	border: 1px solid #aaa;
+}
+.cart-block{
+	float: right;
+	width: 156px;
+	height: 40px;
+	border-radius: 5px;
+	border: solid 1px #ccc;
+	margin-top: 15px;
+	margin-left: 25px;
+	z-index: 20;
+	position: relative;
+}
+.cart-block .cart-widget{
+	padding: 13px 19px;
+	cursor: pointer;
+}
+.cart-popup{
+	position: absolute;
+	top: 54px;
+	right: 0;
+	background: #fff;
+	box-shadow: 0 10px 20px #aaa;
+	padding: 10px;
+	width: 500px;
+	background: #fff;
+}
+.cart-popup .cart-close{
+	float: right;
+}
+.cart-item{
+	height: 85px;
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+	clear: both;
+}
+.cart-item .thumb-image{
+	float: left;
+	margin-right: 10px;
+}
+.cart-item .attributes{
+	float: left;
+}
+.cart-item .item-price{
+	float: right;
+}
+.added-item{
+	background: #deea66;
+}
+.cart-popup-footer{
+	background: #eee;
+	padding: 10px;
+	height: 80px;
+}
+.cart-total{
+	float: left;
+	width: 300px;
+}
+.cart-total .left{
+	float: left;
+}
+.cart-button{
+	float: right;
+}
+.atcf-bottom{
+	clear: both;
+	display: block;
+}
+.single-valued{
+	padding: 15px;
+	border: 1px solid #ddd;
+	margin-bottom: 30px;
+}
+.single-valued .atcf-single{
+	float: left;
+	width: 50%;
+}
+.single-valued .element-label{
+	width: 100px;
+}
+.element-label{
+	float: left;
+	width: 180px;
+}
+.atcf-radio-price .element-label{
+	float: none;
+	width: auto;
+}
+.atcf-element form{
+	float: right;
+}
+.atcf-element form label{
+	margin: 10px 0;
+	font-size: 18px;
+	display: block;
+	float: left;
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 20px;
+}
+.atcf-radio form label{
+	width: 50%;
+}
+.atcf-radio-price form label{
+	width: 33%;
+}
+.atcf-element label input{
+	width: 20px;
+	height: 20px;
+	margin-right: 15px;
+}
+.atcf-element{
+	margin-bottom: 10px;
+	clear: both;
+}
+.atcf-select select,
+.atcf-radio form{
+	width: 390px;
+}
+.atcf-radio-price form{
+	width: 100%;
+}
+.atcf-price{
+	float: left;
+}
+.add-to-cart-button{
+	float: right;
+}
+.add-to-cart-button button{
+	width: 265px;
+	height: 60px;
+	border-radius: 0;
+	background-color: #276397;
+	box-shadow: none;
+	font-weight: 900;
+	line-height: 1.25;
+	letter-spacing: 1.1px;
+	text-align: center;
+	color: #ffffff;
+	border: 0;
+	text-transform: uppercase;
+	position: relative;
+}
+.add-to-cart-button button:disabled{
+	background-color: #87b2d7;
+}
+@-webkit-keyframes yellow-fade {
+  from {
+    background: #e7c3af;
+  }
+  to {
+    background: #fff;
+  }
+}
+@-moz-keyframes yellow-fade {
+  from {
+    background: #e7c3af;
+  }
+  to {
+    background: #fff;
+  }
+}
+@keyframes yellow-fade {
+  from {
+    background: #e7c3af;
+  }
+  to {
+    background: #fff;
+  }
+}
+.fade-it select{
+  -webkit-animation: yellow-fade 2s ease-in-out 0s;
+  -moz-animation: yellow-fade 2s ease-in-out 0s;
+  -o-animation: yellow-fade 2s ease-in-out 0s;
+  animation: yellow-fade 2s ease-in-out 0s;
+}
+.element-inner{
+	display: block;
+}
+.option-not-available .element-inner{
+	display: none;
+}
+.show-if-no-options{
+	display: none;
+}
+.option-not-available .show-if-no-options{
+	display: block;
+}
 		</style>
 	</head>
 	<body>
+		<script>
+	window.atcf_data = window.atcf_data || {};
+  	window.atcf_data.external_data = {
+		"variations": {
+			"p1-1-11-21-31-41": {
+				"price": "111",
+				"discount": "partner",
+				"discount_percentage": "10",
+				"total_price": "101"
+			},
+			"p1-1-11-21-31-42": {
+				"price": "112",
+				"discount": "partner",
+				"discount_percentage": "10",
+				"total_price": "102"
+			},
+			"p1-1-11-21-32-41": {
+				"price": "113",
+				"discount": "partner",
+				"discount_percentage": "10",
+				"total_price": "103"
+			},
+			"p1-1-11-21-32-42": {
+				"price": "113",
+				"discount": "partner",
+				"discount_percentage": "10",
+				"total_price": "103"
+			},
+			"EL_ILANI": {
+				"price": "500",
+				"discount": "partner",
+				"discount_percentage": "0",
+				"total_price": "500"
+			},
+		},
+    	"elements": [
+    		{
+	    		"selector": "atcf-select", 
+	    		"label": "Ebat", 
+	    		"level": "0", 
+	    		"opts": [
+	      			{ "text": "6.8x9.8cm(A7)", "value": "1" },
+	      			{ "text": "9.8x14.2cm", "value": "2", "limitOthers": { "1" : ["11"], "2" : ["23"] } },
+	      			{ "text": "9.8x20.2cm(A6)", "value": "3", "limitOthers": { "1" : ["12","13","15"] } },
+	      			{ "text": "14.2x20.2cm", "value": "4", "limitOthers": { "1" : ["11","12"] } },
+	      			{ "text": "20.2x20.2cm(A5)", "value": "5", "limitOthers": { "1" : ["13"] } }
+	    		]
+    		},
+            {
+	    		"selector": "atcf-radio", 
+	    		"label": "Kağıt", 
+	    		"level": "1", 
+	    		"opts": [
+	      			{ "text": "90gr Parlak Kuşe", "value": "11" },
+	      			{ "text": "110gr Parlak Kuşe", "value": "12", "limitOthers": { "2" : ["21"], "3" : ["31"] } },
+	      			{ "text": "130gr Mat Kuşe", "value": "13" },
+	      			{ "text": "170gr Mat Kuşe", "value": "14" },
+	    		]
+    		},
+    		{
+	    		"selector": "atcf-select", 
+	    		"label": "Baskı", 
+	    		"level": "2", 
+	    		"opts": [
+	      			{ "text": "Sadece Ön", "value": "21" },
+	      			{ "text": "Ön Arka", "value": "22", "limitOthers": { "3" : ["31", "32"] }  }
+	    		]
+    		},
+    		{
+	    		"selector": "atcf-radio", 
+	    		"label": "Uygulama", 
+	    		"level": "3", 
+	    		"opts": [
+	      			{ "text": "Selefon Var", "value": "31" },
+	      			{ "text": "Selefon Yok", "value": "32" }
+	    		]
+    		},
+    		{
+	    		"selector": "atcf-radio-price", 
+	    		"label": "Adet", 
+	    		"level": "4", 
+	    		"opts": [
+	      			{ "text": "1000 Adet", "value": "41" },
+	      			{ "text": "2000 Adet", "value": "42" },
+	      			{ "text": "5000 Adet", "value": "43" },
+	      			{ "text": "10000 Adet", "value": "44" },
+	      			{ "text": "20000 Adet", "value": "45" },
+	      			{ "text": "30000 Adet", "value": "46" },
+	    		]
+    		},
+    		{
+	    		"selector": "atcf-radio", 
+	    		"label": "Baskı:", 
+	    		"level": "5", 
+	    		"opts": [
+	      			{ "text": "Baskılı - 4 renk CMYK", "value": "0" }
+	    		]
+    		},
+    		{
+	    		"selector": "atcf-radio", 
+	    		"label": "Ofset Kesim:", 
+	    		"level": "6", 
+	    		"opts": [
+	      			{ "text": "Düz kesim", "value": "0" }
+	    		]
+    		}
+    	]
+    }
+</script>
 		<div id="cart-block">
 			<cart-block :external_data="external_data" :internal_data="internal_data"></cart-block>
 		</div>
-
-		<div id="atcf">
-			<atcf :external_data="external_data" :internal_data="internal_data"></atcf>
+		<div id="atcf-container">
+			<div id="atcf">
+				<atcf :external_data="external_data" :internal_data="internal_data"></atcf>
+			</div>
 		</div>
 
 		<script type="text/javascript" src="external/vue.js"></script>
