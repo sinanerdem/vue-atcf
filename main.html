@@ -78,20 +78,38 @@
 .cart-button{
 	float: right;
 }
+.tooltip .tooltip-inner {
+	font-size: 13px;
+	background: black;
+	color: white;
+	border-radius: 7px;
+	padding: 5px 10px 4px;
+}
+.add-to-cart-form .info-icon{
+	border-radius: 10px;
+    background: #ccc;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    text-align: center;
+    font-size: 13px;
+    line-height: 16px;
+    cursor: help;
+}
 .atcf-bottom{
 	clear: both;
 	display: block;
 }
-.single-valued{
+.atcf-singles{
 	padding: 15px;
 	border: 1px solid #ddd;
 	margin-bottom: 30px;
 }
-.single-valued .atcf-single{
+.atcf-singles .atcf-single{
 	float: left;
 	width: 50%;
 }
-.single-valued .element-label{
+.atcf-single .element-label{
 	width: 100px;
 }
 .element-label{
@@ -138,6 +156,12 @@
 .atcf-price{
 	float: left;
 }
+.atcf-radio-quantity input[type="radio"]{
+	float: left;
+}
+.atcf-radio-quantity form label{
+	float: left;
+}
 .add-to-cart-button{
 	float: right;
 }
@@ -159,47 +183,51 @@
 .add-to-cart-button button:disabled{
 	background-color: #87b2d7;
 }
-@-webkit-keyframes yellow-fade {
-  from {
-    background: #e7c3af;
-  }
-  to {
-    background: #fff;
-  }
-}
-@-moz-keyframes yellow-fade {
-  from {
-    background: #e7c3af;
-  }
-  to {
-    background: #fff;
-  }
-}
-@keyframes yellow-fade {
-  from {
-    background: #e7c3af;
-  }
-  to {
-    background: #fff;
-  }
-}
-.fade-it select{
-  -webkit-animation: yellow-fade 2s ease-in-out 0s;
-  -moz-animation: yellow-fade 2s ease-in-out 0s;
-  -o-animation: yellow-fade 2s ease-in-out 0s;
-  animation: yellow-fade 2s ease-in-out 0s;
-}
 .element-inner{
 	display: block;
-}
-.option-not-available .element-inner{
-	display: none;
 }
 .show-if-no-options{
 	display: none;
 }
-.option-not-available .show-if-no-options{
+.no-options .actual-selector{
+	display: none;
+}
+.no-options .show-if-no-options{
 	display: block;
+	float: left;
+}
+.atcf-selector{
+	padding: 10px;
+}
+@-webkit-keyframes blink {
+  from {
+    background: #e7c3af;
+  }
+  to {
+    background: #fff;
+  }
+}
+@-moz-keyframes blink {
+  from {
+    background: #e7c3af;
+  }
+  to {
+    background: #fff;
+  }
+}
+@keyframes blink {
+  from {
+    background: #e7c3af;
+  }
+  to {
+    background: #fff;
+  }
+}
+.animate{
+  -webkit-animation: blink 1s ease-in-out 0s;
+  -moz-animation: blink 1s ease-in-out 0s;
+  -o-animation: blink 1s ease-in-out 0s;
+  animation: blink 1s ease-in-out 0s;
 }
 		</style>
 	</head>
@@ -208,29 +236,53 @@
 	window.atcf_data = window.atcf_data || {};
   	window.atcf_data.external_data = {
 		"variations": {
-			"p1-1-11-21-31-41": {
+			"p1-1-11-21-31-1000": {
 				"price": "111",
 				"discount": "partner",
 				"discount_percentage": "10",
 				"total_price": "101"
 			},
-			"p1-1-11-21-31-42": {
+			"p1-1-11-21-31-2000": {
 				"price": "112",
 				"discount": "partner",
 				"discount_percentage": "10",
 				"total_price": "102"
 			},
-			"p1-1-11-21-32-41": {
+			"p1-1-11-21-32-1000": {
 				"price": "113",
 				"discount": "partner",
 				"discount_percentage": "10",
 				"total_price": "103"
 			},
-			"p1-1-11-21-32-42": {
+			"p1-1-11-21-32-2000": {
 				"price": "113",
 				"discount": "partner",
 				"discount_percentage": "10",
 				"total_price": "103"
+			},
+			"p1-1-12-21-32-1000": {
+				"price": "113",
+				"discount": "partner",
+				"discount_percentage": "10",
+				"total_price": "103"
+			},
+			"p1-1-12-21-32-2000": {
+				"price": "2222",
+				"discount": "partner",
+				"discount_percentage": "10",
+				"total_price": "2244"
+			},
+			"p1-1-14-21-32-1000": {
+				"price": "123",
+				"discount": "partner",
+				"discount_percentage": "10",
+				"total_price": "102"
+			},
+			"p1-1-14-21-32-5000": {
+				"price": "555",
+				"discount": "partner",
+				"discount_percentage": "10",
+				"total_price": "556"
 			},
 			"EL_ILANI": {
 				"price": "500",
@@ -239,78 +291,98 @@
 				"total_price": "500"
 			},
 		},
-    	"elements": [
-    		{
-	    		"selector": "atcf-select", 
-	    		"label": "Ebat", 
-	    		"level": "0", 
-	    		"opts": [
-	      			{ "text": "6.8x9.8cm(A7)", "value": "1" },
-	      			{ "text": "9.8x14.2cm", "value": "2", "limitOthers": { "1" : ["11"], "2" : ["23"] } },
-	      			{ "text": "9.8x20.2cm(A6)", "value": "3", "limitOthers": { "1" : ["12","13","15"] } },
-	      			{ "text": "14.2x20.2cm", "value": "4", "limitOthers": { "1" : ["11","12"] } },
-	      			{ "text": "20.2x20.2cm(A5)", "value": "5", "limitOthers": { "1" : ["13"] } }
-	    		]
-    		},
-            {
-	    		"selector": "atcf-radio", 
-	    		"label": "Kağıt", 
-	    		"level": "1", 
-	    		"opts": [
-	      			{ "text": "90gr Parlak Kuşe", "value": "11" },
-	      			{ "text": "110gr Parlak Kuşe", "value": "12", "limitOthers": { "2" : ["21"], "3" : ["31"] } },
-	      			{ "text": "130gr Mat Kuşe", "value": "13" },
-	      			{ "text": "170gr Mat Kuşe", "value": "14" },
-	    		]
-    		},
-    		{
-	    		"selector": "atcf-select", 
-	    		"label": "Baskı", 
-	    		"level": "2", 
-	    		"opts": [
-	      			{ "text": "Sadece Ön", "value": "21" },
-	      			{ "text": "Ön Arka", "value": "22", "limitOthers": { "3" : ["31", "32"] }  }
-	    		]
-    		},
-    		{
-	    		"selector": "atcf-radio", 
-	    		"label": "Uygulama", 
-	    		"level": "3", 
-	    		"opts": [
-	      			{ "text": "Selefon Var", "value": "31" },
-	      			{ "text": "Selefon Yok", "value": "32" }
-	    		]
-    		},
-    		{
-	    		"selector": "atcf-radio-price", 
-	    		"label": "Adet", 
-	    		"level": "4", 
-	    		"opts": [
-	      			{ "text": "1000 Adet", "value": "41" },
-	      			{ "text": "2000 Adet", "value": "42" },
-	      			{ "text": "5000 Adet", "value": "43" },
-	      			{ "text": "10000 Adet", "value": "44" },
-	      			{ "text": "20000 Adet", "value": "45" },
-	      			{ "text": "30000 Adet", "value": "46" },
-	    		]
-    		},
-    		{
-	    		"selector": "atcf-radio", 
-	    		"label": "Baskı:", 
-	    		"level": "5", 
-	    		"opts": [
-	      			{ "text": "Baskılı - 4 renk CMYK", "value": "0" }
-	    		]
-    		},
-    		{
-	    		"selector": "atcf-radio", 
-	    		"label": "Ofset Kesim:", 
-	    		"level": "6", 
-	    		"opts": [
-	      			{ "text": "Düz kesim", "value": "0" }
-	    		]
-    		}
-    	]
+		"product":{
+			"product_uuid": "1",
+			"product_name": "El Ilani",
+			"hidden_attributes":[
+				{
+		    		"label": "Type of prduct", 
+		    		"value": "folded"
+	    		},
+				{
+		    		"label": "Automated control", 
+		    		"value": "Yes"
+	    		},
+			],
+			"text_inputs":[
+				{
+		    		"selector": "atcf-textbox", 
+		    		"label": "Isim Soyisim", 
+		    		"validation": "text-only", 
+	    		},
+				{
+		    		"selector": "atcf-textbox", 
+		    		"label": "Telefon", 
+		    		"validation": "phone", 
+	    		},
+			],
+			"quantities": [1000,2000,5000,10000,20000,30000],
+    		"selectors": [
+	    		{
+		    		"selector": "atcf-smart", 
+		    		"label": "Ebat", 
+		    		"level": "2", 
+		    		"info_text": "Help text 1<br/>Help text 2",
+		    		"opts": [
+		      			{ "text": "6.8x9.8cm(A7)", "value": "1", "limitOthers": { "1" : ["11"], "2" : ["22"] } },
+		      			{ "text": "9.8x14.2cm", "value": "2", "limitOthers": { "1" : ["11"], "2" : ["22"] } },
+		      			{ "text": "9.8x20.2cm(A6)", "value": "3", "limitOthers": { "1" : ["11","12","13","14"] } },
+		      			{ "text": "14.2x20.2cm", "value": "4", "quantities":["500","1000"] },
+		      			{ "text": "20.2x20.2cm(A5)", "value": "5", "limitOthers": { "1" : ["13"] }, "quantities":["100","2000"] }
+		    		]
+	    		},
+	            {
+		    		"selector": "atcf-smart", 
+		    		"label": "Kağıt", 
+		    		"level": "3", 
+		    		"info_text": "Help text 1<br/>Help text 2",
+		    		"opts": [
+		      			{ "text": "90gr Parlak Kuşe", "value": "11" },
+		      			{ "text": "110gr Parlak Kuşe", "value": "12", "limitOthers": { "2" : ["22"], "3" : ["31"] } },
+		      			{ "text": "130gr Mat Kuşe", "value": "13" },
+		      			{ "text": "170gr Mat Kuşe", "value": "14" },
+		    		]
+	    		},
+	    		{
+		    		"selector": "atcf-smart", 
+		    		"label": "Baskı", 
+		    		"level": "5",
+		    		"info_text": "Help text 1<br/>Help text 2", 
+		    		"opts": [
+		      			{ "text": "Sadece Ön", "value": "21" },
+		      			{ "text": "Ön Arka", "value": "22", "limitOthers": { "3" : ["31", "32"] }  }
+		    		]
+	    		},
+	    		{
+		    		"selector": "atcf-smart", 
+		    		"label": "Uygulama", 
+		    		"level": "7",
+		    		"info_text": "Help text 1<br/>Help text 2", 
+		    		"opts": [ 
+		      			{ "text": "Selefon Var", "value": "31" },
+		      			{ "text": "Selefon Yok", "value": "32" }
+		    		]
+	    		},
+	    		{
+		    		"selector": "atcf-smart", 
+		    		"label": "Baskı", 
+		    		"level": "9",
+		    		"info_text": "Help text 1<br/>Help text 2", 
+		    		"opts": [
+		      			{ "text": "Baskılı - 4 renk CMYK", "value": "0" }
+		    		]
+	    		},
+	    		{
+		    		"selector": "atcf-smart", 
+		    		"label": "Ofset Kesim", 
+		    		"level": "11",
+		    		"info_text": "Help text 1<br/>Help text 2", 
+		    		"opts": [
+		      			{ "text": "Düz kesim", "value": "0" }
+		    		]
+	    		}
+	    	]
+    	}
     }
 </script>
 		<div id="cart-block">
@@ -318,11 +390,13 @@
 		</div>
 		<div id="atcf-container">
 			<div id="atcf">
-				<atcf :external_data="external_data" :internal_data="internal_data"></atcf>
 			</div>
 		</div>
-
 		<script type="text/javascript" src="external/vue.js"></script>
+		<!--
+		<script src="https://unpkg.com/popper.js"></script>
+		<script src="https://unpkg.com/v-tooltip"></script>
+		-->
 		<script type="text/javascript" src="cart-block.js"></script>
 		<script type="text/javascript" src="atcf.js"></script>
 	</body>
